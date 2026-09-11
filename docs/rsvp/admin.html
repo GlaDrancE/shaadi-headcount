@@ -1,0 +1,52 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Headcount</title>
+<style>
+body{margin:0;background:#fff8f3;color:#1f1a17;font:15px/1.45 system-ui,sans-serif}main{max-width:900px;margin:0 auto;padding:16px 12px 64px}
+h1{margin:0;font-size:24px}.sub{color:#6b625c;margin:2px 0 14px;font-size:14px}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:16px}
+.tile{background:#fff;border:1px solid #eadfd7;border-radius:12px;padding:12px}.tile b{font-size:28px;display:block}.tile span{color:#6b625c;font-size:13px}
+.bar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:10px}input{padding:8px;border:1px solid #eadfd7;border-radius:8px;font-size:14px;flex:1;min-width:160px}
+button,a.b{background:#fff;border:1px solid #b9382f;color:#b9382f;border-radius:8px;padding:8px 12px;font-size:14px;cursor:pointer;text-decoration:none;white-space:nowrap}
+.wrap{overflow-x:auto}table{width:100%;border-collapse:collapse;background:#fff;border-radius:12px;overflow:hidden}
+th,td{padding:8px 10px;border-bottom:1px solid #eadfd7;text-align:left;white-space:nowrap}th{background:#f7ece5;font-size:13px}
+.y{color:#1e7b3a;font-weight:600}.n{color:#b9382f}.p{color:#b5a79d}
+.fine{font-size:12px;color:#6b625c;margin-top:12px}
+</style></head><body><main id="app">Loading…</main>
+<script src="../lib.js"></script>
+<script>
+const k = new URLSearchParams(location.search).get('k'); const app = document.getElementById('app'); let D, filter = '';
+const guestUrl = tok => `${CFG.siteBase ? CFG.siteBase + '/rsvp/' : location.origin + location.pathname.replace(/admin\.html$/, '')}g.html?t=${tok}`;
+const inviteText = g => `Namaste ${g.name} ji! 🙏 ${D.wedding.couple} ki shaadi mein aapka swagat hai. Kripya is link par batayein kaun kaun se function mein aa rahe hain (30 sec): ${guestUrl(g.token)} — ${D.wedding.host_name}`;
+
+async function load() {
+  D = k && await rpc('get_dashboard', { p_admin_token: k });
+  if (!D) { app.innerHTML = '<h1>Not found</h1>'; return; }
+  render();
+}
+function render() {
+  const { wedding: w, guests } = D; const ev = w.events;
+  const tot = Object.fromEntries(ev.map(e => [e.key, { yes: 0, no: 0, pend: 0 }]));
+  guests.forEach(g => ev.forEach(e => { const r = g.rsvps[e.key]; if (!r) tot[e.key].pend++; else if (r.status === 'yes') tot[e.key].yes += r.count; else tot[e.key].no++; }));
+  const replied = guests.filter(g => Object.keys(g.rsvps).length).length;
+  const rows = guests.filter(g => !filter || (g.name + ' ' + g.phone + ' ' + (g.side || '')).toLowerCase().includes(filter));
+  app.innerHTML = `<h1>${esc(w.couple)}</h1><p class="sub">${replied}/${guests.length} guests replied · auto-refreshes every 15s</p>
+  <div class="tiles">${ev.map(e => `<div class="tile"><b>${tot[e.key].yes}</b><span>${esc(e.name)} · ${tot[e.key].pend} pending</span></div>`).join('')}</div>
+  <div class="bar"><input id="q" placeholder="Search name / phone / side" value="${esc(filter)}"><button id="csv">Download CSV for caterer</button><button id="copyall">Copy all invite texts</button></div>
+  <div class="wrap"><table><thead><tr><th>Guest</th><th>Side</th>${ev.map(e => `<th>${esc(e.name)}</th>`).join('')}<th>Send</th></tr></thead><tbody>
+  ${rows.map(g => `<tr><td><b>${esc(g.name)}</b><br><span class="p">${esc(g.phone)}</span></td><td>${esc(g.side || '')}</td>
+    ${ev.map(e => { const r = g.rsvps[e.key]; return `<td>${!r ? '<span class="p">—</span>' : r.status === 'yes' ? `<span class="y">✓ ${r.count}</span>` : '<span class="n">✗</span>'}</td>`; }).join('')}
+    <td><a class="b" target="_blank" rel="noopener" href="${waLink(g.phone, inviteText(g))}">WhatsApp ${Object.keys(g.rsvps).length ? '↻' : '→'}</a></td></tr>`).join('')}
+  </tbody></table></div>
+  <p class="fine">Tap "WhatsApp →" opens the chat with the invite pre-typed — you just hit send. Split the list with family; anyone with this link can send. Guests can change their answer any time from their link.</p>`;
+  document.getElementById('q').oninput = e => { filter = e.target.value.toLowerCase(); render(); document.getElementById('q').focus(); };
+  document.getElementById('csv').onclick = () => {
+    const head = ['Name', 'Phone', 'Side', ...ev.map(e => e.name)];
+    const lines = [head, ...guests.map(g => [g.name, g.phone, g.side || '', ...ev.map(e => { const r = g.rsvps[e.key]; return !r ? 'pending' : r.status === 'yes' ? r.count : 0; })])]
+      .map(r => r.map(v => `"${String(v).replace(/"/g, '""')}"`).join(',')).join('\n');
+    const a = Object.assign(document.createElement('a'), { href: URL.createObjectURL(new Blob([lines], { type: 'text/csv' })), download: `${w.slug}-headcount.csv` }); a.click();
+  };
+  document.getElementById('copyall').onclick = () => navigator.clipboard.writeText(guests.map(g => `${g.name} (${g.phone}):\n${inviteText(g)}\n`).join('\n')).then(() => alert('Copied. Paste into Notes and send one by one.'));
+}
+load().catch(err => app.innerHTML = `<h1>Error</h1><p>${esc(err.message)}</p>`);
+setInterval(() => load().catch(() => {}), 15000);
+</script></body></html>

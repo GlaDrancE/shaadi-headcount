@@ -1,0 +1,45 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>RSVP</title>
+<style>
+body{margin:0;background:#fff8f3;color:#1f1a17;font:17px/1.5 system-ui,sans-serif}main{max-width:520px;margin:0 auto;padding:24px 16px 64px}
+h1{margin:0 0 4px;font-size:28px}.sub{color:#6b625c;margin:0 0 20px}
+.ev{background:#fff;border:1px solid #eadfd7;border-radius:14px;padding:16px;margin:12px 0}.ev b{font-size:18px}.meta{color:#6b625c;font-size:14px}
+.opts{display:flex;gap:8px;margin-top:10px}.opts button{flex:1;padding:12px;border-radius:10px;border:2px solid #eadfd7;background:#fff;font-size:16px;cursor:pointer}
+.opts button.on{border-color:#b9382f;background:#b9382f;color:#fff}
+.cnt{display:none;align-items:center;gap:10px;margin-top:10px}.cnt.show{display:flex}.cnt button{width:40px;height:40px;border-radius:50%;border:1px solid #eadfd7;background:#fff;font-size:20px}
+.save{width:100%;margin-top:16px;background:#b9382f;color:#fff;border:0;border-radius:12px;padding:14px;font-size:17px;font-weight:600}
+.ok{background:#e6f4ea;border-radius:10px;padding:12px;margin-top:12px;display:none}.fine{font-size:13px;color:#6b625c;text-align:center;margin-top:20px}
+</style></head><body><main id="app">Loading…</main>
+<script src="../lib.js"></script>
+<script>
+const t = new URLSearchParams(location.search).get('t'); const app = document.getElementById('app');
+const state = {};
+(async () => {
+  const d = t && await rpc('get_guest', { p_token: t });
+  if (!d) { app.innerHTML = '<h1>Link not found</h1><p>Please ask the host for a fresh link.</p>'; return; }
+  const { guest, wedding, rsvps } = d;
+  wedding.events.forEach(e => { const r = rsvps[e.key]; state[e.key] = r ? { status: r.status, count: r.count } : { status: null, count: guest.family_size }; });
+  app.innerHTML = `<h1>${esc(wedding.couple)}</h1><p class="sub">Namaste ${esc(guest.name)} 🙏 ${esc(wedding.host_name)} would love to know which functions you can join.</p>
+  ${wedding.events.map(e => `<div class="ev" data-k="${e.key}"><b>${esc(e.name)}</b><div class="meta">${esc([e.date, e.venue].filter(Boolean).join(' · '))}</div>
+    <div class="opts"><button data-s="yes">Aa rahe hain ✓</button><button data-s="no">Nahi aa paayenge</button></div>
+    <div class="cnt"><button data-d="-1">−</button><span>Kitne log? <b class="n"></b></span><button data-d="1">+</button></div></div>`).join('')}
+  <button class="save" id="save">Save RSVP</button><div class="ok" id="ok">Saved! Aap baad mein bhi is link se badal sakte hain.</div>
+  <p class="fine">Your reply goes only to ${esc(wedding.host_name)}.</p>`;
+  const render = () => document.querySelectorAll('.ev').forEach(el => {
+    const s = state[el.dataset.k]; el.querySelectorAll('.opts button').forEach(b => b.classList.toggle('on', b.dataset.s === s.status));
+    el.querySelector('.cnt').classList.toggle('show', s.status === 'yes'); el.querySelector('.n').textContent = s.count;
+  });
+  app.onclick = e => {
+    const el = e.target.closest('.ev'); if (!el) return; const s = state[el.dataset.k];
+    if (e.target.dataset.s) s.status = e.target.dataset.s;
+    if (e.target.dataset.d) s.count = Math.min(50, Math.max(1, s.count + +e.target.dataset.d));
+    render();
+  };
+  render();
+  document.getElementById('save').onclick = async () => {
+    const btn = document.getElementById('save'); btn.disabled = true; btn.textContent = 'Saving…';
+    for (const [k, s] of Object.entries(state)) if (s.status) await rpc('submit_rsvp', { p_token: t, p_event_key: k, p_status: s.status, p_count: s.count });
+    btn.disabled = false; btn.textContent = 'Save RSVP'; document.getElementById('ok').style.display = 'block';
+  };
+})().catch(err => app.innerHTML = `<h1>Something went wrong</h1><p>${esc(err.message)}</p>`);
+</script></body></html>

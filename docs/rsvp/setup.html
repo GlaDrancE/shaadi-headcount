@@ -1,0 +1,43 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Shaadi Headcount — Setup</title>
+<style>
+body{margin:0;background:#fff8f3;color:#1f1a17;font:16px/1.5 system-ui,sans-serif}main{max-width:720px;margin:0 auto;padding:24px 16px 64px}
+input,textarea{width:100%;box-sizing:border-box;padding:10px;border:1px solid #eadfd7;border-radius:8px;font-size:15px;margin:4px 0 12px}
+textarea{font-family:ui-monospace,monospace;min-height:160px}
+button{background:#b9382f;color:#fff;border:0;border-radius:10px;padding:12px 20px;font-size:16px;font-weight:600;cursor:pointer}
+.row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}.card{background:#fff;border:1px solid #eadfd7;border-radius:12px;padding:16px;margin:12px 0}
+.fine{font-size:13px;color:#6b625c}code{background:#f3e9e2;padding:2px 6px;border-radius:4px;word-break:break-all}
+</style></head><body><main>
+<h1>Set up a wedding</h1><p class="fine">Ayush runs this once per customer (~5 min). Output: an admin link for the host.</p>
+<form id="f">
+<div class="card"><label>Couple (e.g. Priya &amp; Rahul)<input name="couple" required></label>
+<label>Short URL slug (e.g. priya-rahul)<input name="slug" required pattern="[a-z0-9-]{3,40}"></label>
+<label>Host name (who guests will recognise)<input name="host_name" required></label>
+<label>Host WhatsApp (digits, with 91)<input name="host_whatsapp" required pattern="[0-9]{10,13}"></label></div>
+<div class="card"><b>Events</b> <span class="fine">— blank rows are skipped</span><div id="events"></div></div>
+<div class="card"><b>Guest list</b> <span class="fine">— paste from Excel/Sheets. Columns: Name, Phone, Side (optional), Family size (optional). Tab or comma separated, one guest per line.</span>
+<textarea name="guests" placeholder="Sharma Uncle	9876543210	Bride	4&#10;Neha Kapoor	9123456780	Groom	2"></textarea></div>
+<button>Create wedding</button></form>
+<div id="out"></div>
+</main>
+<script src="../lib.js"></script>
+<script>
+const DEF = [['haldi','Haldi'],['mehendi','Mehendi'],['sangeet','Sangeet'],['wedding','Wedding'],['reception','Reception']];
+document.getElementById('events').innerHTML = DEF.map(([k, n]) =>
+  `<div class="row"><input name="ev_name_${k}" value="${n}" placeholder="Event"><input name="ev_date_${k}" placeholder="Date, e.g. 21 Nov, 7 PM"><input name="ev_venue_${k}" placeholder="Venue"></div>`).join('');
+document.getElementById('f').onsubmit = async e => {
+  e.preventDefault(); const d = Object.fromEntries(new FormData(e.target));
+  const events = DEF.map(([k]) => ({ key: k, name: d[`ev_name_${k}`].trim(), date: d[`ev_date_${k}`].trim(), venue: d[`ev_venue_${k}`].trim() })).filter(x => x.name);
+  const guests = d.guests.split(/\r?\n/).map(l => l.split(/\t|,/).map(s => s.trim())).filter(c => c[0] && c[1])
+    .map(([name, phone, side, family_size]) => ({ name, phone, side, family_size: parseInt(family_size) || 1 }));
+  const out = document.getElementById('out'); out.textContent = 'Creating…';
+  try {
+    const w = await rpc('create_wedding', { p_slug: d.slug, p_couple: d.couple, p_events: events, p_host_name: d.host_name, p_host_whatsapp: d.host_whatsapp });
+    const n = guests.length ? await rpc('add_guests', { p_admin_token: w.admin_token, p_guests: guests }) : 0;
+    const base = CFG.siteBase ? CFG.siteBase + '/rsvp/' : location.origin + location.pathname.replace(/setup\.html$/, '');
+    const admin = `${base}admin.html?k=${w.admin_token}`;
+    out.innerHTML = `<div class="card"><b>Done.</b> ${n} guests added.<br>Host dashboard (send this to the host, keep it private):<br><code>${admin}</code><br><br>
+      <a href="${waLink(d.host_whatsapp, `Hi ${d.host_name}! Your Shaadi Headcount dashboard for ${d.couple} is ready: ${admin} — open it on your phone, tap "WhatsApp" next to each guest. Headcount updates live. — Ayush`)}"><button type="button">WhatsApp it to the host</button></a></div>`;
+  } catch (err) { out.innerHTML = `<div class="card">Error: ${esc(err.message)}</div>`; }
+};
+</script></body></html>
