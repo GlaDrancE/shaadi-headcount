@@ -3,10 +3,10 @@ const CFG = {
   url: 'https://oiwuldtgzbbvoyptthtl.supabase.co',
   key: 'sb_publishable_X04q2Cn7a5__TB1Sda48Ng_5puIWaPG',
   // ---- FILL THESE BEFORE DEPLOY ----
-  upiVpa: 'ayush@upi',                 // your real UPI ID (money lands with your real name)
+  upiVpa: 'ayushr16060@okicici',                 // your real UPI ID (money lands with your real name)
   upiName: 'Ayush Ramteke',
-  whatsapp: '91XXXXXXXXXX',            // your WhatsApp for onboarding, country code, digits only
-  linkedin: 'https://www.linkedin.com/in/ayush-ramteke',
+  whatsapp: '919049606217',            // your WhatsApp for onboarding, country code, digits only
+  linkedin: 'https://linkedin.com/in/ayush-ramteke',
   siteBase: 'https://gladrance.github.io/shaadi-headcount',                        // e.g. 'https://shaadiheadcount.vercel.app' (set after deploy; used in guest links)
 };
 

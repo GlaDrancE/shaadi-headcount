@@ -160,7 +160,7 @@ Hook (0–1.5s): Avani holds up phone showing a flat-lay grid feed: **"Your sare
 
 **Post-payment confirmation:** Payment received. You'll get a WhatsApp from Ayush within 2 hours asking for your guest list Excel and function dates. Your dashboard link arrives the same day.
 
-**Trust line:** Built by Ayush Ramteke, full-stack developer. [LinkedIn]
+**Trust line:** Built by Ayush Ramteke, full-stack developer. https://linkedin.com/in/ayush-ramteke
 
 **Disclaimer:** We generate the personalised links; you tap Send on each — WhatsApp doesn't allow bulk sending, and we won't risk your number.
 
@@ -195,7 +195,7 @@ Hook (0–1.5s): Avani holds up phone showing a flat-lay grid feed: **"Your sare
 
 **Post-payment confirmation:** Payment received. Ayush will WhatsApp you within 30 minutes for your product photos and preferred settings. Images in ~1 hour after that.
 
-**Trust line:** Built by Ayush Ramteke, full-stack developer. [LinkedIn]
+**Trust line:** Built by Ayush Ramteke, full-stack developer. https://linkedin.com/in/ayush-ramteke
 
 **Disclaimer:** Product-accurate is the promise — any image where the pattern, colour or drape drifts from your original is redone free. No questions.
 
@@ -252,14 +252,14 @@ Why: at ₹500 total, Traffic buys ~40–80 cold clicks that land on a page and 
 ## 6. DM Reply Scripts (Hinglish, warm, short)
 
 **Someone comments the keyword (HEADCOUNT / SHOTS):**
-> Hey! Yeh raha link: [URL]. Page pe sab kuch honest likha hai — price, kaise kaam karta hai, aur kya nahi karta. Koi doubt ho toh yahin poochh lo.
+> Hey! Yeh raha link: https://gladrance.github.io/shaadi-headcount/?o=rsvp. Page pe sab kuch honest likha hai — price, kaise kaam karta hai, aur kya nahi karta. Koi doubt ho toh yahin poochh lo.
 
 **"Price?"**
-> A: ₹2,499 per wedding — saare functions, unlimited guests, dashboard shaadi ke din tak. Weddingkart ₹8,499 leta hai; hum sirf headcount karte hain, cards nahi. Link: [URL]
-> B: ₹999 mein 10 images, ~1 ghante mein. Koi image mein pattern/colour off hua toh free redo. Link: [URL]
+> A: ₹2,499 per wedding — saare functions, unlimited guests, dashboard shaadi ke din tak. Weddingkart ₹8,499 leta hai; hum sirf headcount karte hain, cards nahi. Link: https://gladrance.github.io/shaadi-headcount/?o=rsvp
+> B: ₹999 mein 10 images, ~1 ghante mein. Koi image mein pattern/colour off hua toh free redo. Link: https://gladrance.github.io/shaadi-headcount/?o=rsvp
 
 **"Is this real / who are you?"**
-> Fair question. Yeh tool Ayush Ramteke ne banaya hai — full-stack developer. Yeh unka LinkedIn: [URL]. Payment unke naam pe jaata hai, aur page pe bhi unka naam hai. Main (Avani) bas demo dikha rahi hoon. Abhi 48 ghante ka test chal raha hai — first 3 ko free setup mil raha hai case study ke liye, agar try karna ho.
+> Fair question. Yeh tool Ayush Ramteke ne banaya hai — full-stack developer. Yeh unka LinkedIn: https://gladrance.github.io/shaadi-headcount/?o=rsvp. Payment unke naam pe jaata hai, aur page pe bhi unka naam hai. Main (Avani) bas demo dikha rahi hoon. Abhi 48 ghante ka test chal raha hai — first 3 ko free setup mil raha hai case study ke liye, agar try karna ho.
 
 **"Too expensive"**
 > A: Samajh sakti hoon. Comparison ke liye — Weddingkart ₹8,499, Wedding Wishlist ₹4,999. Yeh ₹2,499 mein saare functions cover karta hai. Aur agar aap first 3 mein ho, free hai — case study ke badle. Bolo toh Ayush se connect karti hoon.
