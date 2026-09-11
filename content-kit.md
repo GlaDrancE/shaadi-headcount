@@ -1,5 +1,7 @@
 # Content Kit — 48h Fake-Door Test
 
+> 11 Sept update: Model Shots is now the default offer with a free preview before payment and two packages (₹999 / ₹1,999). Current Reel scripts, DM texts and WhatsApp flows are in `execution-kit.md`; the Offer B material below is the earlier version.
+
 **Offer A:** Shaadi Headcount (₹2,499/wedding) · **Offer B:** Model Shots (₹999/10 images)
 **Channel:** IG @just_avi0410 (persona "Avani" presents/demos only — no fabricated personal stories) · **Builder/seller on every page:** Ayush Ramteke, full-stack developer
 **Framing rule:** always "we built this" / "this tool". Never "my cousin's wedding".
@@ -252,14 +254,14 @@ Why: at ₹500 total, Traffic buys ~40–80 cold clicks that land on a page and 
 ## 6. DM Reply Scripts (Hinglish, warm, short)
 
 **Someone comments the keyword (HEADCOUNT / SHOTS):**
-> Hey! Yeh raha link: https://gladrance.github.io/shaadi-headcount/?o=rsvp. Page pe sab kuch honest likha hai — price, kaise kaam karta hai, aur kya nahi karta. Koi doubt ho toh yahin poochh lo.
+> Hey! Yeh raha link: https://gladrance.github.io/shaadi-headcount/?o=shots (RSVP tool: ?o=rsvp). Page pe sab kuch honest likha hai — price, kaise kaam karta hai, aur kya nahi karta. Koi doubt ho toh yahin poochh lo.
 
 **"Price?"**
 > A: ₹2,499 per wedding — saare functions, unlimited guests, dashboard shaadi ke din tak. Weddingkart ₹8,499 leta hai; hum sirf headcount karte hain, cards nahi. Link: https://gladrance.github.io/shaadi-headcount/?o=rsvp
-> B: ₹999 mein 10 images, ~1 ghante mein. Koi image mein pattern/colour off hua toh free redo. Link: https://gladrance.github.io/shaadi-headcount/?o=rsvp
+> B: Pehle free preview: ek product photo bhejo, same day model shot milega. Pasand aaye toh Starter ₹999 (5 products, 10 images) ya Catalogue ₹1,999 (12 products, 24 images). Link: https://gladrance.github.io/shaadi-headcount/?o=shots
 
 **"Is this real / who are you?"**
-> Fair question. Yeh tool Ayush Ramteke ne banaya hai — full-stack developer. Yeh unka LinkedIn: https://gladrance.github.io/shaadi-headcount/?o=rsvp. Payment unke naam pe jaata hai, aur page pe bhi unka naam hai. Main (Avani) bas demo dikha rahi hoon. Abhi 48 ghante ka test chal raha hai — first 3 ko free setup mil raha hai case study ke liye, agar try karna ho.
+> Fair question. Yeh tool Ayush Ramteke ne banaya hai — full-stack developer. Yeh unka LinkedIn: https://linkedin.com/in/ayush-ramteke. Payment unke naam pe jaata hai, aur page pe bhi unka naam hai. Main (Avani) bas demo dikha rahi hoon. Abhi 48 ghante ka test chal raha hai — first 3 ko free setup mil raha hai case study ke liye, agar try karna ho.
 
 **"Too expensive"**
 > A: Samajh sakti hoon. Comparison ke liye — Weddingkart ₹8,499, Wedding Wishlist ₹4,999. Yeh ₹2,499 mein saare functions cover karta hai. Aur agar aap first 3 mein ho, free hai — case study ke badle. Bolo toh Ayush se connect karti hoon.

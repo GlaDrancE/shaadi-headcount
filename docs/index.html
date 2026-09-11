@@ -1,5 +1,5 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Shaadi Headcount</title>
+<title>Model Shots</title>
 <style>
 :root{--bg:#fff8f3;--ink:#1f1a17;--mut:#6b625c;--acc:#b9382f;--card:#fff;--line:#eadfd7}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
@@ -14,12 +14,14 @@ input{width:100%;padding:12px;border:1px solid var(--line);border-radius:10px;fo
 .steps li::before{content:counter(s);position:absolute;left:0;top:0;width:26px;height:26px;border-radius:50%;background:var(--acc);color:#fff;text-align:center;font-weight:700;line-height:26px;font-size:14px}
 details{margin:8px 0}summary{cursor:pointer;font-weight:600}
 .trust{color:var(--mut);font-size:14px;margin-top:24px}.trust a{color:var(--acc)}
+button.sec{background:#fff;color:var(--acc);border:2px solid var(--acc);margin-top:8px}
+.pk{display:grid;gap:10px;margin:0 0 14px}.pkc{display:block;border:1px solid var(--line);border-radius:10px;padding:10px 12px;cursor:pointer}.pkc.on{border-color:var(--acc);background:#fff3ee}.pkc input{width:auto;margin:0 8px 0 0}.pkc b{display:inline}.pkc span{display:block;font-size:14px;color:var(--mut);margin-top:2px}
 #qr{margin:12px auto;display:inline-block}.fine{font-size:13px;color:var(--mut)}
 </style></head><body><main id="app">Loading…</main>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script src="lib.js"></script>
 <script>
-// Two offers, one page. ?o=rsvp (default) or ?o=shots. Copy lives here so swapping is a text edit.
+// Two offers, one page. ?o=shots (default) or ?o=rsvp. Copy lives here so swapping is a text edit.
 const OFFERS = {
   rsvp: {
     title: 'Shaadi Headcount', price: 2499, anchor: 8499,
@@ -35,71 +37,95 @@ const OFFERS = {
     disclaimer: 'You get the links; you tap send. WhatsApp does not allow bulk sending from personal numbers.',
   },
   shots: {
-    title: 'Model Shots', price: 999, anchor: 5000,
-    h1: 'Your saree on a model. 10 photos. In an hour. ₹999.',
-    sub: 'Upload a flat-lay photo of your saree, kurti or jewellery. Get 10 product-accurate photos on an Indian model in real settings — no studio, no model, no ₹5,000 shoot.',
-    bullets: ['10 photorealistic images, Instagram-ready (4:5 + 9:16)', 'Product-accurate: pattern, colour and drape match your piece — or we redo it free', 'Delivered on WhatsApp within ~1 hour of receiving your photo'],
-    steps: ['Pay ₹999 and WhatsApp us 1–3 clear photos of the product', 'We generate, hand-check every image, redo any that drift', 'You get a zip on WhatsApp. Post today.'],
-    faq: [['Why not just use a free AI tool?', 'Free tools change the print, the border, the colour — and your buyer notices. We run it through a garment-preserving pipeline and a human checks every frame against your original.'],
-          ['What if the model looks weird?', 'Any image with a distorted face, hand or pattern is redone free. You pay for 10 usable images, not 10 attempts.'],
-          ['Do you keep my photos?', 'No. Deleted after delivery, and never used to train anything.']],
+    title: 'Model Shots', anchor: 8000,
+    packages: [
+      { name: 'Starter', price: 999, products: 5, images: 10, blurb: '5 products · 2 model shots each · 10 images' },
+      { name: 'Catalogue', price: 1999, products: 12, images: 24, blurb: '12 products · 2 model shots each · 24 images · same model, same light across the whole set' },
+    ],
+    h1: 'Your kurti, saree or jewellery on a model. Same day. From ₹999.',
+    sub: 'Send phone photos of your products. Get product-accurate photos on an Indian model in real settings, checked one by one, delivered on WhatsApp the same day. Free preview first, pay only if you like it.',
+    bullets: ['Free preview: send 1 product photo, get 1 watermarked model shot the same day, then decide', 'Product-accurate: print, colour and border match your piece, or we redo it free', 'One model, one light, one look across your whole catalogue, so your feed looks like one brand', 'Instagram-ready sizes (4:5 feed + 9:16 story), delivered as a zip on WhatsApp'],
+    steps: ['WhatsApp us 1 clear product photo (phone camera, daylight, plain background)', 'Same day you get 1 watermarked preview of it on a model. Like it? Pay by UPI.', 'Send the rest of your products. Every image is checked by a person before it reaches you. Same-day delivery, 3 orders a day max.'],
+    faq: [['Why pay when Gemini or ChatGPT can do this free?', 'For one photo, use the free app. Really. Where it breaks is a catalogue: the model changes face and body between images, the print drifts, the border gets invented, and you spend an evening re-prompting. We keep one model and one light across your whole set, check every image against your original, and redo anything that drifts. You get a feed that looks like one brand, not ten experiments.'],
+          ['What if the model or the product looks wrong?', 'Any image with a wrong print, wrong colour, distorted hands or face is redone free. You pay for usable images, not attempts.'],
+          ['Which products work best?', 'Kurtis, co-ord sets, lehengas, dupattas, necklaces, earrings, bangles work very well. Sarees work but the drape is the hardest part, so send a saree as your free preview first and judge for yourself. Very fine embroidery: send the photo and we will tell you honestly before you pay.'],
+          ['Do you keep my photos?', 'No. Deleted after delivery, never used to train anything.'],
+          ['Who am I paying?', 'Ayush Ramteke, a full-stack developer. UPI goes to his name, the WhatsApp is his, and you see a preview before any money moves.']],
     formExtra: { label: 'Your Instagram shop handle', ph: '@yourshop' },
-    cta: 'Reserve for ₹999', done: 'Payment noted! Ayush will WhatsApp you within a few hours to collect your product photos. Delivery within ~1 hour after that.',
-    disclaimer: 'Redo guarantee covers pattern/colour drift and visible artefacts. Not a studio shoot — it’s better priced than one.',
+    ctaPreview: 'Get my free preview', cta: 'Pay by UPI now',
+    previewDone: 'Now send 1 product photo on WhatsApp. You will get a watermarked model shot the same day. Pay only if you like it.',
+    done: 'Payment noted! Ayush will WhatsApp you within a few hours to collect your product photos. Delivery the same day.',
+    disclaimer: 'Pay after you see the preview. Redo guarantee covers print, colour and visible artefacts. Not a studio shoot, and priced like it is not one.',
   }
 };
-const o = new URLSearchParams(location.search).get('o') === 'shots' ? 'shots' : 'rsvp';
+const o = new URLSearchParams(location.search).get('o') === 'rsvp' ? 'rsvp' : 'shots';
 const O = OFFERS[o]; document.title = O.title;
+let pkg = 0; // selected package index (shots only)
+const price = () => O.packages ? O.packages[pkg].price : O.price;
+const pkgName = () => O.packages ? O.packages[pkg].name : '';
 const app = document.getElementById('app');
 const inr = n => '₹' + n.toLocaleString('en-IN');
 
 function landing() {
+  const pk = O.packages ? `<div class="pk">${O.packages.map((p, i) => `<label class="pkc${i === pkg ? ' on' : ''}"><input type="radio" name="pk" value="${i}"${i === pkg ? ' checked' : ''}><b>${p.name} ${inr(p.price)}</b><span>${p.blurb}</span></label>`).join('')}</div>` : '';
   app.innerHTML = `
   <h1>${O.h1}</h1><p class="sub">${O.sub}</p>
   <ul>${O.bullets.map(b => `<li>${b}</li>`).join('')}</ul>
-  <div class="card"><span class="price">${inr(O.price)}</span><span class="anchor">${inr(O.anchor)}</span>
+  <div class="card">${pk}<span class="price">${inr(price())}</span><span class="anchor">${inr(O.anchor)}</span>
     <p class="fine">One-time. Pay by UPI. ${O.disclaimer}</p>
-    <button id="go">${O.cta}</button></div>
+    ${O.ctaPreview ? `<button id="prev">${O.ctaPreview}</button> <button id="go" class="sec">${O.cta}</button>` : `<button id="go">${O.cta}</button>`}</div>
   <h3>How it works</h3><ol class="steps">${O.steps.map(s => `<li>${s}</li>`).join('')}</ol>
   <h3>Questions</h3>${O.faq.map(([q, a]) => `<details><summary>${q}</summary><p>${a}</p></details>`).join('')}
   <p class="trust">Built by <a href="${CFG.linkedin}" target="_blank" rel="noopener">Ayush Ramteke</a>, full-stack developer. Payments go to Ayush directly via UPI. Questions? <a href="${waLink(CFG.whatsapp, 'Hi Ayush, question about ' + O.title)}">WhatsApp</a>.</p>`;
-  document.getElementById('go').onclick = form;
+  document.querySelectorAll('input[name=pk]').forEach(r => r.onchange = () => { pkg = +r.value; track(o, 'package', { pkg: pkgName() }); landing(); });
+  document.getElementById('go').onclick = () => form(false);
+  const pv = document.getElementById('prev'); if (pv) pv.onclick = () => form(true);
   track(o, 'visit', { ref: document.referrer });
 }
 
-function form() {
-  app.innerHTML = `<h1>Reserve your spot</h1><p class="sub">30 seconds. Then pay by UPI.</p>
+function form(preview) {
+  app.innerHTML = `<h1>${preview ? 'Free preview' : 'Reserve your spot'}</h1><p class="sub">${preview ? '30 seconds. Then send 1 product photo on WhatsApp.' : '30 seconds. Then pay by UPI.'}</p>
   <form id="f" class="card">
     <label>Your name<input name="name" required></label>
     <label>WhatsApp number<input name="whatsapp" required inputmode="numeric" pattern="[0-9+ ]{10,15}" placeholder="10 digits"></label>
     <label>${O.formExtra.label}<input name="extra" placeholder="${O.formExtra.ph}"></label>
-    <button>Continue to UPI payment →</button>
+    <button>${preview ? 'Continue to WhatsApp →' : 'Continue to UPI payment →'}</button>
   </form>`;
   document.getElementById('f').onsubmit = e => {
-    e.preventDefault(); const d = Object.fromEntries(new FormData(e.target));
-    track(o, 'reserve', d); pay(d);
+    e.preventDefault(); const d = Object.fromEntries(new FormData(e.target)); d.pkg = pkgName();
+    if (preview) { track(o, 'preview_request', d); previewNext(d); } else { track(o, 'reserve', d); pay(d); }
   };
 }
 
+function previewNext(d) {
+  const msg = `Hi Ayush, free preview please. Name: ${d.name}. Shop: ${d.extra || '-'}. Package I am looking at: ${pkgName()}. Sending 1 product photo now.`;
+  app.innerHTML = `<h1>Almost there, ${esc(d.name)}</h1><div class="card"><p>${O.previewDone}</p>
+    <a class="btn" id="wa" href="${waLink(CFG.whatsapp, msg)}">Send my product photo on WhatsApp</a></div>
+    <p class="fine">Tip: daylight, plain background, the whole product in frame. Ayush replies with the preview the same day (3 orders a day max, first come first served).</p>
+    <p class="fine">Already convinced? <a href="#" id="paynow">Pay ${inr(price())} by UPI now</a>.</p>`;
+  document.getElementById('wa').onclick = () => track(o, 'preview_whatsapp', d);
+  document.getElementById('paynow').onclick = e => { e.preventDefault(); track(o, 'reserve', d); pay(d); };
+}
+
 function pay(d) {
-  const note = `${O.title} ${d.name}`.slice(0, 40);
-  const link = upiLink(O.price, note);
-  app.innerHTML = `<h1>Pay ${inr(O.price)} by UPI</h1>
+  const note = `${O.title} ${pkgName()} ${d.name}`.slice(0, 40);
+  const link = upiLink(price(), note);
+  app.innerHTML = `<h1>Pay ${inr(price())} by UPI</h1>
   <div class="card" style="text-align:center">
     <div id="qr"></div><br>
     <a class="btn" id="upi" href="${link}">Open GPay / PhonePe / Paytm</a>
-    <p class="fine">Or pay to <b>${esc(CFG.upiVpa)}</b> (${esc(CFG.upiName)}) — amount ${inr(O.price)}</p>
+    <p class="fine">Or pay to <b>${esc(CFG.upiVpa)}</b> (${esc(CFG.upiName)}) — amount ${inr(price())}</p>
   </div>
   <form id="p" class="card"><label>After paying, enter the UPI transaction ID (UTR / Ref no.)<input name="utr" required minlength="10" placeholder="12-digit number from your payment app"></label>
     <button>I’ve paid ✓</button></form>
   <p class="fine">Changed your mind? No problem — nothing is charged until you pay.</p>`;
-  new QRCode(document.getElementById('qr'), { text: link, width: 200, height: 200 });
+  if (window.QRCode) new QRCode(document.getElementById('qr'), { text: link, width: 200, height: 200 });
   document.getElementById('upi').onclick = () => track(o, 'upi_intent', d);
   document.getElementById('p').onsubmit = e => {
     e.preventDefault(); const utr = new FormData(e.target).get('utr').trim();
-    track(o, 'paid', { ...d, utr, amount: O.price });
+    track(o, 'paid', { ...d, utr, amount: price() });
     app.innerHTML = `<h1>Thank you, ${esc(d.name)}!</h1><div class="card"><p>${O.done}</p>
-      <a class="btn" href="${waLink(CFG.whatsapp, `Hi Ayush, paid ${inr(O.price)} for ${O.title}. UTR ${utr}. Name: ${d.name}`)}">Message Ayush on WhatsApp now</a></div>
+      <a class="btn" href="${waLink(CFG.whatsapp, `Hi Ayush, paid ${inr(price())} for ${O.title} ${pkgName()}. UTR ${utr}. Name: ${d.name}`)}">Message Ayush on WhatsApp now</a></div>
       <p class="fine">UTR recorded: ${esc(utr)}. Ayush verifies every payment manually before starting.</p>`;
   };
 }

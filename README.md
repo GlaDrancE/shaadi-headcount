@@ -6,11 +6,12 @@ Everything here is built. Left for you: fill 3 config values, deploy (2 min), sh
 
 | Path | What |
 |---|---|
-| `docs/index.html` | Fake-door landing page. `?o=rsvp` (default) = Shaadi Headcount ₹2,499 · `?o=shots` = Model Shots ₹999. Lead form → UPI QR/deep-link → UTR confirm. Every step logged. |
+| `docs/index.html` | Fake-door landing page. `?o=shots` (default) = Model Shots ₹999 / ₹1,999 with free preview before payment · `?o=rsvp` = Shaadi Headcount ₹2,499. Lead form → WhatsApp preview or UPI QR/deep-link → UTR confirm. Every step logged. |
 | `docs/rsvp/setup.html` | **You** run this once per paying customer: couple, events, paste guest list → get the host's admin link. ~5 min. |
 | `docs/rsvp/admin.html?k=…` | Host dashboard: live headcount per event, per-guest "WhatsApp →" (pre-typed invite), CSV for caterer. Auto-refresh 15s. |
 | `docs/rsvp/g.html?t=…` | Guest RSVP page (Hinglish). Per event: coming / not coming + how many. Editable later. |
 | `docs/lib.js` | Config + 20-line Supabase REST helper. No SDK, no build step. |
+| `execution-kit.md` | **Current plan (11 Sept):** Fiverr gigs, landing page changes, Reel scripts, boutique DMs, WhatsApp flows, Gemini app prompts, day plan, kill rules, money rules. |
 | `content-kit.md` | 4 Reel scripts, Stories, landing copy, LinkedIn post, ad copy + targeting, DM scripts, tracking-sheet spec. |
 | `research.md` | The 6 market reports + scoreboard (why these two offers, why the other five died). |
 
